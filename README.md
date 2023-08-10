@@ -32,6 +32,7 @@ The script will display relevant CVE information, if available.
 ## Script Example
 
 ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58ef93ef-8a07-4aae-a355-d81fe8616c5a)
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/ec587604-53ff-41a9-8d57-27905342ed72)
 
 ### Contact
 
