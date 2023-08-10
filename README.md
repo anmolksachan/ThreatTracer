@@ -1,6 +1,7 @@
 # ThreatTracer - CVE Checker Script
 
-![CVE Checker Art](link_to_your_image_here) <!-- Replace with a link to your ASCII art image -->
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/c557b992-00d9-408d-b1d4-7a9ce5e181c9)
+
 
 This script fetches CVE details for a given component and version.
 
@@ -30,9 +31,6 @@ The script will display relevant CVE information, if available.
 
 ## Script Example
 
-```python
-import requests
-from termcolor import colored
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58ef93ef-8a07-4aae-a355-d81fe8616c5a)
 
-# ... (your script code here)
 
