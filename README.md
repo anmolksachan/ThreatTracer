@@ -33,4 +33,15 @@ The script will display relevant CVE information, if available.
 
 ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58ef93ef-8a07-4aae-a355-d81fe8616c5a)
 
+### Contact
 
+Shoot my DM : [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
+
+### Special Thanks
+Contribute to be mentioned here.
+
+### Note
+There are none so far.
+
+## __Want to support my work?__
+Give me a Star in the repository or follow me [@FR13ND0x7F](https://twitter.com/fr13nd0x7f) , thats enough for me :P
