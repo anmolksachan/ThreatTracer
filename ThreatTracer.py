@@ -1,5 +1,6 @@
 import requests
 from termcolor import colored
+import urllib.parse
 
 art = """
   _______ _                    _ _______                      
@@ -13,12 +14,12 @@ art = """
 
 print(art)                                                              
 
-
 def fetch_cve_details(component, version):
     base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
-    query = f"cpe:/a:jquery:jquery:{version}"
+    query = f"cpe:/a:{component}:{component}:{version}"
     url = f"{base_url}?cpeMatchString={query}"
-    
+    print(colored(f"Querying: {url}", "red"))
+     
     response = requests.get(url)
     data = response.json()
 
@@ -28,9 +29,11 @@ def fetch_cve_details(component, version):
         for cve_item in cves:
             cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
             description = cve_item["cve"]["description"]["description_data"][0]["value"]
+            link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
             
             print(colored(f"CVE ID: {cve_id}", "red"))
             print(colored(f"Description: {description}\n", "yellow"))
+            print(colored(f"Link: {link}\n", "blue"))
 
 if __name__ == "__main__":
     print(colored("CVE Checker Script", "green", attrs=["bold"]))
@@ -39,4 +42,7 @@ if __name__ == "__main__":
     component = input(colored("Enter the component (e.g., jquery): ", "cyan"))
     version = input(colored("Enter the version (e.g., 1.0.0): ", "cyan"))
 
-    fetch_cve_details(component, version)
+    component_encoded = urllib.parse.quote(component)
+    version_encoded = urllib.parse.quote(version)
+
+    fetch_cve_details(component_encoded, version_encoded)
