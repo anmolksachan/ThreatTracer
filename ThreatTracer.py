@@ -12,14 +12,14 @@ art = """
   A Script to identify CVE by name & version by @FR13ND0x7F
 """
 
-print(art)                                                              
+print(art)
 
 def fetch_cve_details(component, version):
     base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
     query = f"cpe:/a:{component}:{component}:{version}"
     url = f"{base_url}?cpeMatchString={query}"
     print(colored(f"Querying: {url}", "red"))
-     
+
     response = requests.get(url)
     data = response.json()
 
@@ -30,9 +30,22 @@ def fetch_cve_details(component, version):
             cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
             description = cve_item["cve"]["description"]["description_data"][0]["value"]
             link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
-            
+
+            weaknesses = []
+            if "problemtype" in cve_item["cve"]:
+                for problem_type in cve_item["cve"]["problemtype"]["problemtype_data"]:
+                    for description in problem_type["description"]:
+                        weaknesses.append(description["value"])
+
+            if "description_data" in cve_item["cve"]["description"]:
+                description_text = cve_item["cve"]["description"]["description_data"][0]["value"]
+            else:
+                description_text = "Description not available."
+
             print(colored(f"CVE ID: {cve_id}", "red"))
-            print(colored(f"Description: {description}\n", "yellow"))
+            print(colored(f"Description: {description_text}", "yellow"))
+            if weaknesses:
+                print(colored(f"Weaknesses: {', '.join(weaknesses)}", "magenta"))
             print(colored(f"Link: {link}\n", "blue"))
 
 if __name__ == "__main__":
