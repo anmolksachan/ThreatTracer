@@ -1,6 +1,7 @@
 import requests
 import re
 from termcolor import colored
+from datetime import datetime
 
 art = """
   _______ _                    _ _______                      
@@ -9,7 +10,7 @@ art = """
     | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/ __/ _ \ '__|
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
     |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  
-    A Script to identify CVE usinng CPE by name & version 
+    A Script to identify CVE using CPE by name & version 
         Credit: @FR13ND0x7F @0xCaretaker @meppohak5
 """
 
@@ -40,21 +41,21 @@ def synk_db(cve_id):
 
 def fetch_cve_details(cpe_strings):
     base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
+    results = []
+
     for cpe_string in cpe_strings:
         cve_query_string = ":".join(cpe_string.split(":")[1:5])  # Extract relevant CPE part (vendor, product, version, update)
         url = f"{base_url}?cpeMatchString=cpe:/{cve_query_string}"
-        print(colored(f"Querying: {url}", "red"))
 
         response = requests.get(url)
         data = response.json()
 
         if "result" in data:
             cves = data["result"]["CVE_Items"]
-            print(colored("\nCVE Details", "cyan", attrs=["underline"]))
             for cve_item in cves:
                 cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
                 snyk_short_name = synk_db(cve_id)
-                
+
                 description = cve_item["cve"]["description"]["description_data"][0]["value"]
                 link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
 
@@ -69,13 +70,17 @@ def fetch_cve_details(cpe_strings):
                 else:
                     description_text = "Description not available."
 
-                print(colored(f"CVE ID: {cve_id}", "red"))
-                if snyk_short_name:
-                    print(colored(f"Short Name: {snyk_short_name}", "green"))
-                print(colored(f"Description: {description_text}", "yellow"))
-                if weaknesses:
-                    print(colored(f"Weaknesses: {', '.join(weaknesses)}", "magenta"))
-                print(colored(f"Link: {link}\n", "blue"))
+                cve_details = {
+                    "CVE ID": cve_id,
+                    "Short Name": snyk_short_name,
+                    "Description": description_text,
+                    "Weaknesses": ", ".join(weaknesses),
+                    "Link": link
+                }
+
+                results.append(cve_details)
+
+    return results
 
 if __name__ == "__main__":
     print(colored("CPE Finder Script", "green", attrs=["bold"]))
@@ -89,6 +94,33 @@ if __name__ == "__main__":
         print(colored("CPEs Found:", "green"))
         for cpe_string in cpe_strings:
             print(colored(f"  {cpe_string}", "green"))
-        fetch_cve_details(cpe_strings)
+        
+        export_option = input(colored("\nDo you want to export results to a text document? (yes/no): ", "yellow"))
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f"{component}_{version}_{timestamp}.txt"
+        
+        if export_option.lower() == "yes":
+            results = fetch_cve_details(cpe_strings)
+            with open(filename, "w") as f:
+                for result in results:
+                    f.write(f"CVE ID: {result['CVE ID']}\n")
+                    if result["Short Name"]:
+                        f.write(f"Short Name: {result['Short Name']}\n")
+                    f.write(f"Description: {result['Description']}\n")
+                    if result["Weaknesses"]:
+                        f.write(f"Weaknesses: {result['Weaknesses']}\n")
+                    f.write(f"Link: {result['Link']}\n\n")
+            print(colored(f"Results exported to '{filename}'", "green"))
+        
+        results = fetch_cve_details(cpe_strings)
+        for result in results:
+            print(colored("\nCVE Details", "cyan", attrs=["underline"]))
+            print(colored(f"CVE ID: {result['CVE ID']}", "red"))
+            if result["Short Name"]:
+                print(colored(f"Short Name: {result['Short Name']}", "green"))
+            print(colored(f"Description: {result['Description']}", "yellow"))
+            if result["Weaknesses"]:
+                print(colored(f"Weaknesses: {result['Weaknesses']}", "magenta"))
+            print(colored(f"Link: {result['Link']}\n", "blue"))
     else:
         print(colored("CPEs not found for the provided component and version.", "red"))
