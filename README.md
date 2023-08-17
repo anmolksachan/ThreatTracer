@@ -59,6 +59,9 @@ Shoot my DM : [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
 
 ### Special Thanks
 Contribute to be mentioned here.
+[@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
+[@0xCaretaker](https://github.com/0xCaretaker)
+[@meppohak5](https://github.com/meppohak5)
 
 ### Note
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
