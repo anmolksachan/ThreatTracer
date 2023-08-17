@@ -9,7 +9,8 @@ art = """
     | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/ __/ _ \ '__|
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
     |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  
-    A Script to identify CVE usinng CPE by name & version by @FR13ND0x7F
+    A Script to identify CVE using CPE by name & version 
+        Credit: @FR13ND0x7F @0xCaretaker @meppohak5
 """
 
 print(colored(art, "cyan"))
