@@ -7,9 +7,9 @@ This script fetches CVE details for a given component and version by identifying
 
 ## Usage
 
-1. Make sure you have Python installed on your system.
-2. Install required libraries using `pip install requests colorama`.
-3. Run the script using `python threattracer.py`.
+1. Make sure you have Python3 installed on your system.
+2. Install required libraries using `pip3 install -r requirements.txt`.
+3. Run the script using `python3 threattracer.py`.
 
 ## Script Description
 
@@ -30,6 +30,7 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 12. Interactive Prompt: The script employs an interactive prompt to guide users through the process of entering the software component and version.
 13. Automated Querying: The script automates the process of querying and fetching CVE details, saving users time and effort.
 14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
+15. Store results in text: Store the results in a nice formatted way.
 
 ### Prerequisites
 
