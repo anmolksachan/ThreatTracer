@@ -1,6 +1,6 @@
 # ThreatTracer - CVE Checker Script
 
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/c557b992-00d9-408d-b1d4-7a9ce5e181c9)
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/9f6eb058-e393-4731-ac4b-0ea5a2964b74)
 
 
 This script fetches CVE details for a given component and version by identifying relevant CPEs.
@@ -51,17 +51,18 @@ The script will display relevant CVE information, if available.
  ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/128be6ce-7204-49b6-adaf-d7ec1f342a25)
 
 ## Sample Run
-![Studio_Project_V2](https://github.com/anmolksachan/ThreatTracer/assets/60771253/a8938aa2-06cc-4fbf-a640-c10d77219185)
+<!--![Studio_Project_V2](https://github.com/anmolksachan/ThreatTracer/assets/60771253/a8938aa2-06cc-4fbf-a640-c10d77219185)-->
+![demo](https://github.com/anmolksachan/ThreatTracer/assets/60771253/7c1e8a3c-77d9-4686-a7a7-e7e696e2237f)
 
 ### Contact
 
 Shoot my DM : [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
 
 ### Special Thanks
-Contribute to be mentioned here.
 [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
 [@0xCaretaker](https://github.com/0xCaretaker)
 [@meppohak5](https://github.com/meppohak5)
+Contribute to be mentioned here.
 
 ### Note
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
