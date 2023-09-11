@@ -1,2 +1,3 @@
-termcolor
-requests
+requests==2.26.0
+termcolor==1.1.0
+pyExploitDb==1.0.0
