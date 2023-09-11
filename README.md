@@ -31,12 +31,14 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 13. Automated Querying: The script automates the process of querying and fetching CVE details, saving users time and effort.
 14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
 15. Store results in text: Store the results in a nice formatted way.
+16. Add every CVE public exploit availability.
 
 ### Prerequisites
 
 - Python (3.6+ recommended)
 - `requests` library (`pip install requests`)
 - `termcolor` library (`pip install termcolor`)
+- `pyExploitDb` library (`pip install pyExploitDb==1.0.0`)
 
 ### Execution
 
