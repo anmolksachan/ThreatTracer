@@ -1,4 +1,4 @@
-# ThreatTracer - CVE Checker and Public Exploit Enumerater against any product
+# ThreatTracer - CVE Checker and [Public Exploit Enumerater](https://github.com/anmolksachan/ThreatTracer/blob/main/README.md#public-exploit) against any product
 
 ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/9f6eb058-e393-4731-ac4b-0ea5a2964b74)
 
