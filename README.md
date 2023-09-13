@@ -30,7 +30,7 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 12. Interactive Prompt: The script employs an interactive prompt to guide users through the process of entering the software component and version.
 13. Automated Querying: The script automates the process of querying and fetching CVE details, saving users time and effort.
 14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
-15. Store results in text: Store the results in a nice formatted way.
+15. Store results in text: Store the results in a nice formatted way [In first version, not supported any more]
 16. Add every CVE public exploit availability.
 
 ### Prerequisites
