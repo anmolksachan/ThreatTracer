@@ -57,6 +57,10 @@ The script will display relevant CVE information, if available.
 <!--![Studio_Project_V2](https://github.com/anmolksachan/ThreatTracer/assets/60771253/a8938aa2-06cc-4fbf-a640-c10d77219185)-->
 ![demo](https://github.com/anmolksachan/ThreatTracer/assets/60771253/7c1e8a3c-77d9-4686-a7a7-e7e696e2237f)
 
+## Public Exploit 
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/2d6ea1ff-d246-4e59-a2d5-9fd8a4b3fef1)
+
+
 ### Contact
 
 Shoot my DM : [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
