@@ -3,7 +3,7 @@
 ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/9f6eb058-e393-4731-ac4b-0ea5a2964b74)
 
 
-This script fetches CVE details for a given component and version by identifying relevant CPEs.
+This script fetches CVE details for a given component and version by identifying relevant CPEs, and searches for public exploits for relevant CVEs.
 
 ## Usage
 
