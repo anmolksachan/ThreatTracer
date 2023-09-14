@@ -32,13 +32,15 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
 15. Store results in text: Store the results in a nice formatted way [In first version, not supported any more]
 16. Add every CVE public exploit availability.
+17. The v2.1 release of the code optimizes the previous version by incorporating asynchronous HTTP requests using the aiohttp library, faster response time.
 
 ### Prerequisites
 
 - Python (3.6+ recommended)
-- `requests` library (`pip install requests`)
-- `termcolor` library (`pip install termcolor`)
-- `pyExploitDb` library (`pip install pyExploitDb==1.0.0`)
+- `requests` library (`pip3 install requests`)
+- `termcolor` library (`pip3 install termcolor`)
+- `pyExploitDb` library (`pip3 install pyExploitDb==1.0.0`)
+- `aiohttp` library (`pip3 install aiohttp`)
 
 ### Execution
 
