@@ -60,8 +60,7 @@ The script will display relevant CVE information, if available.
 ![demo](https://github.com/anmolksachan/ThreatTracer/assets/60771253/7c1e8a3c-77d9-4686-a7a7-e7e696e2237f)
 
 ## Public Exploit 
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/2d6ea1ff-d246-4e59-a2d5-9fd8a4b3fef1)
-
+https://github.com/anmolksachan/ThreatTracer/assets/60771253/ae20bc09-1f19-4eaf-af09-ff930eb6b10f
 
 ### Contact
 
