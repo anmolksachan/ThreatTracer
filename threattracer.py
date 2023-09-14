@@ -1,8 +1,7 @@
-import asyncio
+import requests
 import re
 from termcolor import colored
 import json
-from aiohttp import ClientSession, TCPConnector, ClientTimeout
 from pyExploitDb import PyExploitDb
 
 art = """
@@ -18,105 +17,102 @@ art = """
 
 print(colored(art, "cyan"))
 
-async def find_cpes_async(component, version):
+def find_cpes(component, version):
     base_url = "https://nvd.nist.gov/products/cpe/search/results"
     params = {
         "namingFormat": "2.3",
         "keyword": f"{component} {version}"
     }
 
-    async with ClientSession(connector=TCPConnector(ssl=False), timeout=ClientTimeout(total=10)) as session:
-        async with session.get(base_url, params=params) as response:
-            print(f"URL Used: {response.url}")  # Print the URL used to find CPE
-            content = await response.text()
+    response = requests.get(base_url, params=params)
+    print(f"URL Used: {response.url}")  # Print the URL used to find CPE
+    content = response.text
 
     cpe_matches = re.findall(r'cpe:(.*?)<', content)
     return cpe_matches
 
-async def synk_db(cve_id):
-    async with ClientSession(connector=TCPConnector(ssl=False), timeout=ClientTimeout(total=10)) as session:
-        async with session.get(f"https://security.snyk.io/vuln/?search={cve_id}") as res:
-            text = await res.text()
-            a_tag_pattern = r'data-snyk-test="vuln table title".*>([^"]+)<!----><!---->'
-            a_tag_matches = re.findall(a_tag_pattern, text)
+def synk_db(cve_id):
+    res = requests.get(f"https://security.snyk.io/vuln/?search={cve_id}")
+    a_tag_pattern = r'data-snyk-test="vuln table title".*>([^"]+)<!----><!---->'
+    a_tag_matches = re.findall(a_tag_pattern, res.text)
 
-            if a_tag_matches:
-                snyk_short_name = a_tag_matches[0].strip()
-                return snyk_short_name
+    if a_tag_matches:
+        snyk_short_name = a_tag_matches[0].strip()
+        return snyk_short_name
 
-async def fetch_cve_details(cpe_string):
+def fetch_cve_details(cpe_string):
     base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
     results = []
 
     cve_query_string = ":".join(cpe_string.split(":")[1:5])  # Extract relevant CPE part (vendor, product, version, update)
     url = f"{base_url}?cpeMatchString=cpe:/{cve_query_string}"
 
-    async with ClientSession(connector=TCPConnector(ssl=False), timeout=ClientTimeout(total=10)) as session:
-        async with session.get(url) as response:
-            try:
-                data = await response.json()
-            except json.JSONDecodeError:
-                print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
-                return []
+    response = requests.get(url)
+    
+    try:
+        data = response.json()
+    except json.JSONDecodeError:
+        print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
+        return []
 
-            if "result" in data:
-                cves = data["result"]["CVE_Items"]
-                for cve_item in cves:
-                    cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
-                    snyk_short_name = await synk_db(cve_id)
+    if "result" in data:
+        cves = data["result"]["CVE_Items"]
+        for cve_item in cves:
+            cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
+            snyk_short_name = synk_db(cve_id)
 
-                    description = cve_item["cve"]["description"]["description_data"][0]["value"]
-                    link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
+            description = cve_item["cve"]["description"]["description_data"][0]["value"]
+            link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
 
-                    weaknesses = []
-                    if "problemtype" in cve_item["cve"]:
-                        for problem_type in cve_item["cve"]["problemtype"]["problemtype_data"]:
-                            for description in problem_type["description"]:
-                                weaknesses.append(description["value"])
+            weaknesses = []
+            if "problemtype" in cve_item["cve"]:
+                for problem_type in cve_item["cve"]["problemtype"]["problemtype_data"]:
+                    for description in problem_type["description"]:
+                        weaknesses.append(description["value"])
 
-                    if "description_data" in cve_item["cve"]["description"]:
-                        description_text = cve_item["cve"]["description"]["description_data"][0]["value"]
-                    else:
-                        description_text = "Description not available."
+            if "description_data" in cve_item["cve"]["description"]:
+                description_text = cve_item["cve"]["description"]["description_data"][0]["value"]
+            else:
+                description_text = "Description not available."
 
-                    # Check for public exploit using pyExploitDb
-                    pEdb = PyExploitDb()
-                    pEdb.debug = False
-                    pEdb.openFile()
-                    exploit_status = pEdb.searchCve(cve_id)
-                    if exploit_status:
-                        exploit_status = "Public Exploit Found"
-                    else:
-                        exploit_status = "No Public Exploit Found"
+            # Check for public exploit using pyExploitDb
+            pEdb = PyExploitDb()
+            pEdb.debug = False
+            pEdb.openFile()
+            exploit_status = pEdb.searchCve(cve_id)
+            if exploit_status:
+                exploit_status = "Public Exploit Found"
+            else:
+                exploit_status = "No Public Exploit Found"
 
-                    cve_details = {
-                        "CVE ID": cve_id,
-                        "Short Name": snyk_short_name,
-                        "Description": description_text,
-                        "Weaknesses": ", ".join(weaknesses),
-                        "Link": link,
-                        "Exploit Status": exploit_status
-                    }
+            cve_details = {
+                "CVE ID": cve_id,
+                "Short Name": snyk_short_name,
+                "Description": description_text,
+                "Weaknesses": ", ".join(weaknesses),
+                "Link": link,
+                "Exploit Status": exploit_status
+            }
 
-                    results.append(cve_details)
+            results.append(cve_details)
 
     return results
 
-async def main():
+if __name__ == "__main__":
     print(colored("CPE Finder Script", "green", attrs=["bold"]))
     print("This script searches for the CPEs of a component and version.\n")
 
     component = input(colored("Enter the component (e.g., jquery): ", "cyan"))
     version = input(colored("Enter the version (e.g., 1.0.0): ", "cyan"))
 
-    cpe_strings = await find_cpes_async(component, version)
+    cpe_strings = find_cpes(component, version)
     if cpe_strings:
         print(colored("CPEs Found:", "green"))
         for cpe_string in cpe_strings:
             print(colored(f"  {cpe_string}", "green"))
         
         for cpe_string in cpe_strings:
-            results = await fetch_cve_details(cpe_string)
+            results = fetch_cve_details(cpe_string)
             if results:
                 print(colored("\nCVE Details", "cyan", attrs=["underline"]))
                 for result in results:
@@ -133,7 +129,4 @@ async def main():
                         print(colored(f"Exploit Status: {result['Exploit Status']}\n", "green"))
     else:               
         print(colored("CPEs not found for the provided component and version.", "red"))
-
-if __name__ == "__main__":
-    asyncio.run(main())
 
