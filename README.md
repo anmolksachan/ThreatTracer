@@ -1,7 +1,6 @@
 # ThreatTracer - CVE Checker and [Public Exploit Enumerater](https://github.com/anmolksachan/ThreatTracer/blob/main/README.md#public-exploit) against any product
 
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/9f6eb058-e393-4731-ac4b-0ea5a2964b74)
-
+![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/77092c9f-f3f2-401d-8b16-d4a21a945249)
 
 This script fetches CVE details for a given component and version by identifying relevant CPEs, and searches for public exploits for relevant CVEs.
 
