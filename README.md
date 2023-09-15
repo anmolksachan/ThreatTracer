@@ -30,8 +30,9 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 13. Automated Querying: The script automates the process of querying and fetching CVE details, saving users time and effort.
 14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
 15. Store results in text: Store the results in a nice formatted way [In first version, not supported any more]
-16. Add every CVE public exploit availability feature by [@meppohak5](https://github.com/meppohak5) 
+16. Add every CVE public exploit via `pyExploitDb` feature by [@meppohak5](https://github.com/meppohak5) 
 17. The v2.1 release of the code optimizes the previous version by incorporating asynchronous HTTP requests using the aiohttp library, faster response time.
+18. https://poc-in-github.motikan2010.net -> Github POC lookup support.
 
 ### Prerequisites
 
@@ -61,6 +62,9 @@ The script will display relevant CVE information, if available.
 ## Public Exploit 
 https://github.com/anmolksachan/ThreatTracer/assets/60771253/dc7d1cb0-e759-4a12-842e-a2bb42dda14c
 <!--https://github.com/anmolksachan/ThreatTracer/assets/60771253/ae20bc09-1f19-4eaf-af09-ff930eb6b10f-->
+
+## Github Exploit/ POC reverse lookup
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/ea3f3460-e051-4261-8924-d24e8f50cea2)
 
 ## POC
 [Vimeo](https://vimeo.com/864312552)
