@@ -11,7 +11,7 @@ art = """
     | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/ __/ _ \ '__|
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
     |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  Version 2.1
-A Script to identify CVE & Public Exploit by product/component's name & version 
+    A Script to identify CVE using CPE by name & version 
         Credit: @FR13ND0x7F @0xCaretaker @meppohak5
 """
 
@@ -25,7 +25,7 @@ def find_cpes(component, version):
     }
 
     response = requests.get(base_url, params=params)
-    print(f"URL Used: {response.url}")  # Print the URL used to find CPE
+    #print(f"URL Used: {response.url}")   Print the URL used to find CPE
     content = response.text
 
     cpe_matches = re.findall(r'cpe:(.*?)<', content)
@@ -53,7 +53,7 @@ def fetch_cve_details(cpe_string):
         data = response.json()
     except json.JSONDecodeError:
         print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
-        return []
+        return []  # Return an empty list to indicate the error
 
     if "result" in data:
         cves = data["result"]["CVE_Items"]
@@ -81,9 +81,9 @@ def fetch_cve_details(cpe_string):
             pEdb.openFile()
             exploit_status = pEdb.searchCve(cve_id)
             if exploit_status:
-                exploit_status = "Public Exploit Found"
+                exploit_status = "Public Exploit Found over Exploit-DB"
             else:
-                exploit_status = "No Public Exploit Found"
+                exploit_status = "No Public Exploit Found over Exploit-DB"
 
             cve_details = {
                 "CVE ID": cve_id,
@@ -97,6 +97,17 @@ def fetch_cve_details(cpe_string):
             results.append(cve_details)
 
     return results
+
+def fetch_github_urls(cve_id):
+    api_url = f"https://poc-in-github.motikan2010.net/api/v1/?cve_id={cve_id}"
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        if "pocs" in data and data["pocs"]:
+            github_urls = [poc["html_url"] for poc in data["pocs"]]
+            return github_urls
+    return []
 
 if __name__ == "__main__":
     print(colored("CPE Finder Script", "green", attrs=["bold"]))
@@ -116,17 +127,24 @@ if __name__ == "__main__":
             if results:
                 print(colored("\nCVE Details", "cyan", attrs=["underline"]))
                 for result in results:
-                    print(colored(f"CVE ID: {result['CVE ID']}", "white"))
+                    cve_id = result["CVE ID"]
+                    print(colored(f"\nCVE ID: {cve_id}", "white"))
                     if result["Short Name"]:
                         print(colored(f"Short Name: {result['Short Name']}", "light_blue"))
                     print(colored(f"Description: {result['Description']}", "yellow"))
                     if result["Weaknesses"]:
                         print(colored(f"Weaknesses: {result['Weaknesses']}", "magenta"))
                     print(colored(f"Link: {result['Link']}", "blue"))
-                    if result["Exploit Status"] == "Public Exploit Found":
-                        print(colored(f"Exploit Status: {result['Exploit Status']}\n", "red"))
+                    github_urls = fetch_github_urls(cve_id) # Print GitHub URLs for this CVE
+                    if github_urls:
+                        print(colored("Public Exploit/ POC Over Github found:", "red"))
+                        for url in github_urls:
+                            print(colored(f"  {url}", "blue"))
                     else:
-                        print(colored(f"Exploit Status: {result['Exploit Status']}\n", "green"))
+                        print(colored("Public Exploit/ POC Over Github not found, you might need to check manually", "green"))
+                    if result["Exploit Status"] == "Public Exploit Found":
+                        print(colored(f"Exploit Status: {result['Exploit Status']}", "red"))
+                    else:
+                        print(colored(f"Exploit Status: {result['Exploit Status']}", "green"))
     else:               
         print(colored("CPEs not found for the provided component and version.", "red"))
-
