@@ -167,13 +167,15 @@ if __name__ == "__main__":
                         print(colored(f"Exploit Status: {result['Exploit Status']}", "red"))
                     else:
                         print(colored(f"Exploit Status: {result['Exploit Status']}", "green"))
-        
-        # Search for download links
-        download_links = search_and_extract_download_links(component)
-        
-        if download_links is not None:
-            print(colored("\nPossible Exploits/ 0Days/ CVEs:", "cyan"))
-            for link in download_links:
-                print(link)
-    else:               
-        print(colored("CPEs not found for the provided component and version.", "red"))
+    else:
+        print(colored("No CPEs found for the provided component and version.", "red"))
+    
+    # Search for download links on Packet Storm Security even if no CPEs were found
+    download_links = search_and_extract_download_links(component)
+    
+    if download_links:
+        print(colored("\nPossible Exploits on Packet Storm Security:", "cyan"))
+        for link in download_links:
+            print(link)
+    else:
+        print(colored("No download links found on Packet Storm Security.", "red"))
