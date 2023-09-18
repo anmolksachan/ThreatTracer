@@ -33,7 +33,8 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 16. Add every CVE public exploit via `pyExploitDb` feature by [@meppohak5](https://github.com/meppohak5) 
 17. The v2.1 release of the code optimizes the previous version by incorporating asynchronous HTTP requests using the aiohttp library, faster response time.
 18. https://poc-in-github.motikan2010.net -> Github POC lookup support.
-
+19. Reverse search for public exploits/ 0-Days over `packetstormsecurity`
+ 
 ### Prerequisites
 
 - Python (3.6+ recommended)
