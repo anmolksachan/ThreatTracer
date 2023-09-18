@@ -1,15 +1,17 @@
+import sys
 import requests
 import re
 from termcolor import colored
 import json
 from pyExploitDb import PyExploitDb
 from bs4 import BeautifulSoup
+import subprocess
 
 art = """
   _______ _                    _ _______                      
  |__   __| |                  | |__   __|                     
     | |  | |__  _ __ ___  __ _| |_ | |_ __ __ _  ___ ___ _ __ 
-    | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/ __/ _ \ '__|
+    | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/__ / _ \ '__|
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
     |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  Version 2.1
  A Script to identify CVE and public exploits using CPE by name & version 
@@ -49,6 +51,10 @@ def fetch_cve_details(cpe_string):
 
     response = requests.get(url)
     
+    if response.status_code != 200:
+        print(colored(f"Error: Unable to retrieve CVE data for CPE: {cpe_string}. Status code: {response.status_code}", "red"))
+        return []
+
     try:
         data = response.json()
     except json.JSONDecodeError:
@@ -124,10 +130,42 @@ def search_and_extract_download_links(product_name):
                 download_links.append(f"https://packetstormsecurity.com{href}")
 
         if not download_links:
-            print(colored("No download links found on Packet Storm Security.", "red"))
+            print(colored("No download links found on Packet Storm Security.", "red", attrs=["underline"]))
             return None
 
     return download_links
+
+def search_marc_info(search_term):
+    # Make a GET request to the URL
+    url = f"https://marc.info/?l=full-disclosure&s={search_term}"
+    response = requests.get(url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Check if the response contains "No hits found for"
+        if "No hits found for" in soup.get_text():
+            print(colored("No possible exploits found on Marc.Info.", "yellow", attrs=["underline"]))
+        else:
+            # Find all <a> tags within <pre> tags, excluding those with "full-disc" in the text
+            post_links = soup.find('pre').find_all('a', string=lambda text: "full-disc" not in text)
+
+            # Print all names and links
+            if post_links:
+                results = []
+                for link in post_links:
+                    name = link.get_text(strip=True)
+                    link_url = "https://marc.info" + link['href']
+                    results.append({"Name": name, "Link": link_url})
+                return results
+            else:
+                print(colored("No matching results found on Marc.Info.", "yellow"))
+    else:
+        print(colored("Failed to retrieve the web page from Marc.Info.", "red"))
+        print(f"Status code: {response.status_code}")
+        return None
 
 if __name__ == "__main__":
     print(colored("CVE and Exploit Finder Script", "green", attrs=["bold"]))
@@ -174,8 +212,18 @@ if __name__ == "__main__":
     download_links = search_and_extract_download_links(component)
     
     if download_links:
-        print(colored("\nPossible Exploits on Packet Storm Security:", "cyan"))
+        print(colored("\nPossible Exploits on Packet Storm Security:", "cyan", attrs=["underline"]))
         for link in download_links:
             print(link)
     else:
-        print(colored("No download links found on Packet Storm Security.", "red"))
+        print(colored("No download links found on Packet Storm Security.", "red", attrs=["underline"]))
+
+    # Search Marc.Info
+    search_term_marc = f"{component} {version}"
+    print(f"\nUsing keyword "+search_term_marc+" for lookup...")
+    marc_results = search_marc_info(search_term_marc)
+    if marc_results:
+        print(colored("\nPossible Exploits:", "cyan", attrs=["underline"]))
+        for result in marc_results:
+            print(colored(f"\nName: {result['Name']}", "white"))
+            print(colored(f"Link: {result['Link']}", "blue"))
