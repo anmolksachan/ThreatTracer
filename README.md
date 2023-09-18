@@ -1,6 +1,8 @@
 # ThreatTracer - CVE Checker and [Public Exploit Enumerater](https://github.com/anmolksachan/ThreatTracer/blob/main/README.md#public-exploit) against any product
 
-![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/77092c9f-f3f2-401d-8b16-d4a21a945249)
+<!--![ThreatTracer Banner version 2 1 OLD ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/77092c9f-f3f2-401d-8b16-d4a21a945249)-->
+![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58f8e429-700d-4067-a007-518ee00a7ef7)
+
 
 This script fetches CVE details for a given component and version by identifying relevant CPEs, and searches for public exploits for relevant CVEs.
 
@@ -34,6 +36,7 @@ This script uses the National Vulnerability Database (NVD) API to fetch Common V
 17. The v2.1 release of the code optimizes the previous version by incorporating asynchronous HTTP requests using the aiohttp library, faster response time.
 18. https://poc-in-github.motikan2010.net -> Github POC lookup support.
 19. Reverse search for public exploits/ 0-Days over `packetstormsecurity`
+20. <b>Search for all possible exploits/ 0Days.</b>
  
 ### Prerequisites
 
