@@ -64,6 +64,10 @@ The script will display relevant CVE information, if available.
 https://github.com/anmolksachan/ThreatTracer/assets/60771253/dc7d1cb0-e759-4a12-842e-a2bb42dda14c
 <!--https://github.com/anmolksachan/ThreatTracer/assets/60771253/ae20bc09-1f19-4eaf-af09-ff930eb6b10f-->
 
+## Packet Storm security lookup 
+![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/21c155f1-5cce-48e9-a3cf-3470699241d1)
+Sometimes the vulnerability doesn't have CVE associated yet and it is possible that a public exploit is available.
+
 ## Github Exploit/ POC reverse lookup
 ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/ea3f3460-e051-4261-8924-d24e8f50cea2)
 
