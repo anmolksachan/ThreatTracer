@@ -3,6 +3,7 @@ import re
 from termcolor import colored
 import json
 from pyExploitDb import PyExploitDb
+from bs4 import BeautifulSoup
 
 art = """
   _______ _                    _ _______                      
@@ -25,7 +26,6 @@ def find_cpes(component, version):
     }
 
     response = requests.get(base_url, params=params)
-    #print(f"URL Used: {response.url}")   Print the URL used to find CPE
     content = response.text
 
     cpe_matches = re.findall(r'cpe:(.*?)<', content)
@@ -44,7 +44,7 @@ def fetch_cve_details(cpe_string):
     base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
     results = []
 
-    cve_query_string = ":".join(cpe_string.split(":")[1:5])  # Extract relevant CPE part (vendor, product, version, update)
+    cve_query_string = ":".join(cpe_string.split(":")[1:5])
     url = f"{base_url}?cpeMatchString=cpe:/{cve_query_string}"
 
     response = requests.get(url)
@@ -53,7 +53,7 @@ def fetch_cve_details(cpe_string):
         data = response.json()
     except json.JSONDecodeError:
         print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
-        return []  # Return an empty list to indicate the error
+        return []
 
     if "result" in data:
         cves = data["result"]["CVE_Items"]
@@ -75,7 +75,6 @@ def fetch_cve_details(cpe_string):
             else:
                 description_text = "Description not available."
 
-            # Check for public exploit using pyExploitDb
             pEdb = PyExploitDb()
             pEdb.debug = False
             pEdb.openFile()
@@ -109,14 +108,36 @@ def fetch_github_urls(cve_id):
             return github_urls
     return []
 
+def search_and_extract_download_links(product_name):
+    search_url = f"https://packetstormsecurity.com/search/?q={product_name}"
+    response = requests.get(search_url)
+
+    download_links = []
+
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        results = soup.find_all('a', href=True)
+
+        for result in results:
+            href = result['href']
+            if '/files/download/' in href and href.endswith('.txt'):
+                download_links.append(f"https://packetstormsecurity.com{href}")
+
+        if not download_links:
+            print(colored("No download links found on Packet Storm Security.", "red"))
+            return None
+
+    return download_links
+
 if __name__ == "__main__":
-    print(colored("CPE Finder Script", "green", attrs=["bold"]))
-    print("This script searches for the CPEs of a component and version.\n")
+    print(colored("CVE and Exploit Finder Script", "green", attrs=["bold"]))
+    print("This script searches for CVEs, exploits, and download links for a product.\n")
 
     component = input(colored("Enter the component (e.g., jquery): ", "cyan"))
     version = input(colored("Enter the version (e.g., 1.0.0): ", "cyan"))
 
     cpe_strings = find_cpes(component, version)
+    
     if cpe_strings:
         print(colored("CPEs Found:", "green"))
         for cpe_string in cpe_strings:
@@ -135,7 +156,7 @@ if __name__ == "__main__":
                     if result["Weaknesses"]:
                         print(colored(f"Weaknesses: {result['Weaknesses']}", "magenta"))
                     print(colored(f"Link: {result['Link']}", "blue"))
-                    github_urls = fetch_github_urls(cve_id) # Print GitHub URLs for this CVE
+                    github_urls = fetch_github_urls(cve_id)
                     if github_urls:
                         print(colored("Public Exploit/ POC Over Github found:", "red"))
                         for url in github_urls:
@@ -146,5 +167,13 @@ if __name__ == "__main__":
                         print(colored(f"Exploit Status: {result['Exploit Status']}", "red"))
                     else:
                         print(colored(f"Exploit Status: {result['Exploit Status']}", "green"))
+        
+        # Search for download links
+        download_links = search_and_extract_download_links(component)
+        
+        if download_links is not None:
+            print(colored("\nPossible Exploits/ 0Days/ CVEs:", "cyan"))
+            for link in download_links:
+                print(link)
     else:               
         print(colored("CPEs not found for the provided component and version.", "red"))
