@@ -15,6 +15,7 @@ art = """
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
     |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  Version 2.1
  A Script to identify CVE and public exploits using CPE by name & version 
+          -+ Hunt for 0Days and unpublished exploits +-
         Credit: @FR13ND0x7F @0xCaretaker @meppohak5
 """
 
@@ -130,7 +131,7 @@ def search_and_extract_download_links(product_name):
                 download_links.append(f"https://packetstormsecurity.com{href}")
 
         if not download_links:
-            print(colored("No download links found on Packet Storm Security.", "red", attrs=["underline"]))
+            print(colored("No download links found on Packet Storm Security.", "green", attrs=["underline"]))
             return None
 
     return download_links
@@ -147,7 +148,7 @@ def search_marc_info(search_term):
 
         # Check if the response contains "No hits found for"
         if "No hits found for" in soup.get_text():
-            print(colored("No possible exploits found on Marc.Info.", "yellow", attrs=["underline"]))
+            print(colored("No matching exploits found.", "red", attrs=["underline"]))
         else:
             # Find all <a> tags within <pre> tags, excluding those with "full-disc" in the text
             post_links = soup.find('pre').find_all('a', string=lambda text: "full-disc" not in text)
@@ -161,9 +162,9 @@ def search_marc_info(search_term):
                     results.append({"Name": name, "Link": link_url})
                 return results
             else:
-                print(colored("No matching results found on Marc.Info.", "yellow"))
+                print(colored("No matching exploits found.", "green"))
     else:
-        print(colored("Failed to retrieve the web page from Marc.Info.", "red"))
+        print(colored("Failed to retrieve the web page.", "red"))
         print(f"Status code: {response.status_code}")
         return None
 
