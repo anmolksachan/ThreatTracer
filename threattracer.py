@@ -172,8 +172,8 @@ if __name__ == "__main__":
     print(colored("CVE and Exploit Finder Script", "green", attrs=["bold"]))
     print("This script searches for CVEs, exploits, and possible 0-Days for any product.\n")
 
-    component = input(colored("Enter the component (e.g., jquery): ", "cyan"))
-    version = input(colored("Enter the version (e.g., 1.0.0): ", "cyan"))
+    component = input(colored("Enter the component (e.g., Peel Shopping): ", "cyan"))
+    version = input(colored("Enter the version (e.g., 8.0.2): ", "cyan"))
 
     cpe_strings = find_cpes(component, version)
     
