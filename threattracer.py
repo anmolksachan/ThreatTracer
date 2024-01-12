@@ -44,11 +44,11 @@ def synk_db(cve_id):
         return snyk_short_name
 
 def fetch_cve_details(cpe_string):
-    base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
+    base_url = "https://services.nvd.nist.gov/rest/json/cves/2.0"
     results = []
 
     cve_query_string = ":".join(cpe_string.split(":")[1:5])
-    url = f"{base_url}?cpeMatchString=cpe:/{cve_query_string}"
+    url = f"{base_url}?cpeName=cpe:{cve_query_string}"
 
     response = requests.get(url)
     
