@@ -13,7 +13,7 @@ art = """
     | |  | |__  _ __ ___  __ _| |_ | |_ __ __ _  ___ ___ _ __ 
     | |  | '_ \| '__/ _ \/ _` | __|| | '__/ _` |/__ / _ \ '__|
     | |  | | | | | |  __/ (_| | |_ | | | | (_| | (_|  __/ |   
-    |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  Version 2.1
+    |_|  |_| |_|_|  \___|\__,_|\__||_|_|  \__,_|\___\___|_|  Version 2.2
  A Script to identify CVE and public exploits using CPE by name & version 
           -+ Hunt for 0Days and unpublished exploits +-
         Credit: @FR13ND0x7F @0xCaretaker @meppohak5
@@ -44,43 +44,39 @@ def synk_db(cve_id):
         return snyk_short_name
 
 def fetch_cve_details(cpe_string):
-    base_url = "https://services.nvd.nist.gov/rest/json/cves/1.0"
-    results = []
+    base_url = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 
-    cve_query_string = ":".join(cpe_string.split(":")[1:5])
-    url = f"{base_url}?cpeMatchString=cpe:/{cve_query_string}"
+    cves = []
 
-    response = requests.get(url)
-    
-    if response.status_code != 200:
-        print(colored(f"Error: Unable to retrieve CVE data for CPE: {cpe_string}. Status code: {response.status_code}", "red"))
-        return []
+    for index, cpe_string in enumerate(cpe_strings[:2]):
+        cve_query_string = ":".join(cpe_string.split(":")[1:5])
+        url = f"{base_url}?cpeName=cpe:{cpe_string}"
+        print(colored(f"Querying: {url}", "red"))
 
-    try:
-        data = response.json()
-    except json.JSONDecodeError:
-        print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
-        return []
+        response = requests.get(url)
 
-    if "result" in data:
-        cves = data["result"]["CVE_Items"]
-        for cve_item in cves:
-            cve_id = cve_item["cve"]["CVE_data_meta"]["ID"]
-            snyk_short_name = synk_db(cve_id)
+        if response.status_code != 200:
+            print(colored(f"Error: Unable to retrieve CVE data for CPE: {cpe_string}. Status code: {response.status_code}", "red"))
+            return []
 
-            description = cve_item["cve"]["description"]["description_data"][0]["value"]
+        try:
+            data = response.json()
+        except json.JSONDecodeError:
+            print(colored(f"Error decoding JSON for CPE: {cpe_string}. Skipping.", "red"))
+            return []
+
+        for cve_item in data["vulnerabilities"]:
+
+            all_cve_details = []
+
+            cve_id = cve_item["cve"]["id"]
+            description_text = cve_item["cve"]["descriptions"][0]["value"]
             link = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
-
+            
             weaknesses = []
-            if "problemtype" in cve_item["cve"]:
-                for problem_type in cve_item["cve"]["problemtype"]["problemtype_data"]:
-                    for description in problem_type["description"]:
-                        weaknesses.append(description["value"])
-
-            if "description_data" in cve_item["cve"]["description"]:
-                description_text = cve_item["cve"]["description"]["description_data"][0]["value"]
-            else:
-                description_text = "Description not available."
+            for problem_type in cve_item["cve"]["weaknesses"]:
+                for description in problem_type["description"]:
+                    weaknesses.append(description["value"])
 
             pEdb = PyExploitDb()
             pEdb.debug = False
@@ -90,19 +86,19 @@ def fetch_cve_details(cpe_string):
                 exploit_status = "Public Exploit Found over Exploit-DB"
             else:
                 exploit_status = "No Public Exploit Found over Exploit-DB"
+            
+            snyk_short_name = synk_db(cve_id)
 
-            cve_details = {
+            all_cve_details.append({
                 "CVE ID": cve_id,
                 "Short Name": snyk_short_name,
                 "Description": description_text,
                 "Weaknesses": ", ".join(weaknesses),
                 "Link": link,
                 "Exploit Status": exploit_status
-            }
+            })
 
-            results.append(cve_details)
-
-    return results
+    return all_cve_details
 
 def fetch_github_urls(cve_id):
     api_url = f"https://poc-in-github.motikan2010.net/api/v1/?cve_id={cve_id}"
