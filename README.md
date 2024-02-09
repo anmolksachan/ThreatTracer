@@ -1,7 +1,8 @@
 # ThreatTracer - CVE Checker, [Public Exploit Enumerater](https://github.com/anmolksachan/ThreatTracer/blob/main/README.md#public-exploit) and [ZeroDay](https://github.com/anmolksachan/ThreatTracer/assets/60771253/65328a63-a0dd-4902-b7f9-0346564480dc) finder against any product
 
 <!--![ThreatTracer Banner version 2 1 OLD ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/77092c9f-f3f2-401d-8b16-d4a21a945249)-->
-![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58f8e429-700d-4067-a007-518ee00a7ef7)
+<!--![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58f8e429-700d-4067-a007-518ee00a7ef7)-->
+<img alt="Screenshot 2024-02-09 at 7 05 14 PM" src="https://github.com/anmolksachan/ThreatTracer/assets/60771253/1be90c9e-ac0a-4038-b0f5-7aa4e5cde29f">
 
 
 This script fetches CVE details for a given component and version by identifying relevant CPEs, and searches for public exploits for relevant CVEs.
