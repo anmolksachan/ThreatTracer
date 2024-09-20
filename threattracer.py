@@ -6,7 +6,7 @@ import json
 from pyExploitDb import PyExploitDb
 from bs4 import BeautifulSoup
 
-art = """
+art = r"""
   _______ _                    _ _______                      
  |__   __| |                  | |__   __|                     
     | |  | |__  _ __ ___  __ _| |_ | |_ __ __ _  ___ ___ _ __ 
@@ -67,8 +67,12 @@ def fetch_cve_details(cpe_string):
                 pEdb = PyExploitDb()
                 pEdb.debug = False
                 pEdb.openFile()
-                exploit_status = "Public Exploit Found over Exploit-DB" if pEdb.searchCve(cve_id) else "No Public Exploit Found over Exploit-DB"
-                
+
+                try:
+                    exploit_status = "Public Exploit Found over Exploit-DB" if pEdb.searchCve(cve_id) else "No Public Exploit Found over Exploit-DB"
+                except ValueError as e:
+                    exploit_status = "Error processing Exploit-DB response."
+
                 snyk_short_name = synk_db(cve_id)
 
                 all_cve_details.append({
@@ -141,51 +145,53 @@ if __name__ == "__main__":
     component = input(colored("Enter the component (e.g., Apache): ", "cyan"))
     version = input(colored("Enter the version (e.g., 4.2.1): ", "cyan"))
 
+    # Fetch and display CPEs
     cpe_strings = find_cpes(component, version)
-    
     if cpe_strings:
         print(colored("CPEs Found:", "green"))
         for cpe_string in cpe_strings:
             print(colored(f"  {cpe_string}", "green"))
-        
-        for cpe_string in cpe_strings:
-            results = fetch_cve_details(cpe_string)
-            if results:
-                print(colored("\nCVE Details", "cyan", attrs=["underline"]))
-                for result in results:
-                    cve_id = result["CVE ID"]
-                    print(colored(f"\nCVE ID: {cve_id}", "white"))
-                    if result["Short Name"]:
-                        print(colored(f"Short Name: {result['Short Name']}", "light_blue"))
-                    print(colored(f"Description: {result['Description']}", "yellow"))
-                    if result["Weaknesses"]:
-                        print(colored(f"Weaknesses: {result['Weaknesses']}", "magenta"))
-                    print(colored(f"Link: {result['Link']}", "blue"))
-                    github_urls = fetch_github_urls(cve_id)
-                    if github_urls:
-                        print(colored("Public Exploit/POC Over Github found:", "red"))
-                        for url in github_urls:
-                            print(colored(f"  {url}", "blue"))
-                    else:
-                        print(colored("Public Exploit/POC Over Github not found, you might need to check manually", "green"))
-                    print(colored(f"Exploit Status: {result['Exploit Status']}", "red" if result["Exploit Status"] == "Public Exploit Found over Exploit-DB" else "green"))
     else:
-        print(colored("No CPEs found for the provided component and version.", "red"))
-    
-    download_links = search_and_extract_download_links(component)
-    
-    if download_links:
-        print(colored("\nPossible Exploits on Packet Storm Security:", "cyan", attrs=["underline"]))
-        for link in download_links:
-            print(link)
-    else:
-        print(colored("No download links found on Packet Storm Security.", "red", attrs=["underline"]))
+        print(colored("No CPEs found. Please try different keywords.", "red"))
+        sys.exit(0)
 
-    search_term_marc = f"{component} {version}"
-    print(f"\nUsing keyword "+search_term_marc+" for lookup...")
-    marc_results = search_marc_info(search_term_marc)
-    if marc_results:
-        print(colored("\nPossible Exploits:", "cyan", attrs=["underline"]))
-        for result in marc_results:
-            print(colored(f"\nName: {result['Name']}", "white"))
-            print(colored(f"Link: {result['Link']}", "blue"))
+    # Search for Packet Storm Security download links
+    download_links = search_and_extract_download_links(f"{component} {version}")
+    if download_links:
+        print(colored("\nPublic exploits found over Packet Storm Security", "yellow"))
+        for link in download_links:
+            print(colored(f"  {link}", "blue"))
+
+    # Search Marc Full Disclosure for exploits
+    marc_info = search_marc_info(f"{component} {version}")
+    if marc_info:
+        print(colored("\nExploits found in Marc Full Disclosure", "yellow"))
+        for result in marc_info:
+            print(colored(f"{result['Name']}: {result['Link']}", "green"))
+    else:
+        print(colored("\nNo exploits found in Marc Full Disclosure.", "red"))
+
+    # Process each CPE string to get CVE details
+    for cpe_string in cpe_strings:
+        results = fetch_cve_details(cpe_string)
+        if results:
+            print(colored("\nCVE Details", "cyan", attrs=["underline"]))
+            for result in results:
+                cve_id = result["CVE ID"]
+                print(colored(f"\nCVE ID: {cve_id}", "white"))
+                if result["Short Name"]:
+                    print(colored(f"Short Name: {result['Short Name']}", "magenta"))
+                print(colored(f"Description: {result['Description']}", "yellow"))
+                print(colored(f"Weaknesses: {result['Weaknesses']}", "red"))
+                print(colored(f"Link: {result['Link']}", "blue"))
+
+                github_links = fetch_github_urls(cve_id)
+                if github_links:
+                    print(colored("\nExploit/POC Over Github", "yellow"))
+                    for link in github_links:
+                        print(colored(f"  {link}", "green"))
+                else:
+                    print(colored("\nExploit/POC Over Github: None", "green"))
+                print(colored(f"Exploit Status: {result['Exploit Status']}", "red"))
+
+    print(colored("Script Execution Completed!", "green", attrs=["underline"]))
