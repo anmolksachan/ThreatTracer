@@ -194,4 +194,4 @@ if __name__ == "__main__":
                     print(colored("\nExploit/POC Over Github: None", "green"))
                 print(colored(f"Exploit Status: {result['Exploit Status']}", "red"))
 
-    print(colored("Script Execution Completed!", "green", attrs=["underline"]))
+    print(colored("Hack The Planet!", "green", attrs=["underline"]))
