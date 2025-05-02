@@ -15,7 +15,7 @@
 - 🚀 **NVD API Integration** with API key support for faster queries
 - 📦 **Trickest PoC Database** integration for GitHub exploit lookup
 - 📬 **Marc Full Disclosure** exploit search integration
-- 🛡️ **Exploit-DB** verification via pyExploitDb
+- 🛡️ **Exploit-DB** verification via static mode
 - ⚡ **Rate limiting** with automatic retry system
 - 🔐 **API Key Management** with persistent storage
 - 📊 **Detailed Output** with color-coded results
