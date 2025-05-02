@@ -7,9 +7,6 @@
 
 > Find CVEs, public exploits, and 0-Day vulnerabilities for any software component.
 
-Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)
-Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
-
 ## Key Features ✨
 - 🔍 **Multi-mode Search**: Lookup by:
   - Component & Version (`-c apache -v 2.4`)
@@ -118,6 +115,10 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 [@0xCaretaker](https://github.com/0xCaretaker) <br>
 [@meppohak5](https://github.com/meppohak5) <br>
 Contribute to be mentioned here.
+
+## Read More:
+Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
+Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
 
 ### Note
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
