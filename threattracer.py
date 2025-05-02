@@ -59,6 +59,7 @@ def parse_args():
 
     args = parser.parse_args()
 
+    # Automatically enable PoC and detailed info for direct CPE/CVE lookups
     if args.cpe or args.cve:
         args.poc = True
         args.more = True
@@ -169,8 +170,8 @@ def fetch_cve_details_by_cve(cve_id):
     for item in data.get('vulnerabilities', []):
         cve = item['cve']
         cve_id = cve['id']
-        exploits = search_exploitdb(cve_id)
-        trickest_links = fetch_trickest_info(cve_id)
+        exploits = search_exploitdb(cve_id) if args.poc else []
+        trickest_links = fetch_trickest_info(cve_id) if args.poc else []
         vulnerabilities.append({
             "CVE ID": cve_id,
             "Description": cve.get('descriptions', [{}])[0].get('value', 'N/A'),
@@ -190,8 +191,8 @@ def fetch_cve_details_by_cpe(cpe_string):
     for item in data.get('vulnerabilities', []):
         cve = item['cve']
         cve_id = cve['id']
-        exploits = search_exploitdb(cve_id)
-        trickest_links = fetch_trickest_info(cve_id)
+        exploits = search_exploitdb(cve_id) if args.poc else []
+        trickest_links = fetch_trickest_info(cve_id) if args.poc else []
         vulnerabilities.append({
             "CVE ID": cve_id,
             "Description": cve.get('descriptions', [{}])[0].get('value', 'N/A'),
@@ -205,18 +206,19 @@ def fetch_cve_details_by_cpe(cpe_string):
 def print_cve_info(details):
     for d in details:
         print(colored(f"\nCVE ID: {d['CVE ID']}", "white"))
-        print(colored(f"Description: {d['Description']}", "yellow"))
-        print(colored(f"Weaknesses: {d['Weaknesses']}", "red"))
+        if args.more:
+            print(colored(f"Description: {d['Description']}", "yellow"))
+            print(colored(f"Weaknesses: {d['Weaknesses']}", "red"))
         print(colored(f"Link: {d['Link']}", "blue"))
         
-        if d['Exploits']:
+        if args.poc and d['Exploits']:
             print(colored("\nExploit-DB Entries:", "magenta"))
             for exp in d['Exploits']:
                 print(f"  ID: {exp['id']}")
                 print(f"  Description: {exp['description']}")
                 print(f"  Link: {exp['link']}")
         
-        if d['GitHub PoCs']:
+        if args.poc and d['GitHub PoCs']:
             print(colored("\nGitHub PoCs:", "cyan"))
             for link in d['GitHub PoCs']:
                 print(f"  {link}")
