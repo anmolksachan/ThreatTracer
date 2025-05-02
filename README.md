@@ -40,6 +40,7 @@ python3 threattracer.py -h
 $ sudo python3 threattracer.py --apiStore <API KEY> -c 'Peel Shopping' -v '9.3.0'
 API key stored in /root/.cve_finder.cfg
 ```
+Request API Key here: https://nvd.nist.gov/developers/request-an-api-key
 
 ## Usage 🚀
 ```bash
@@ -108,11 +109,7 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 
 ## Requirements 📋 
 
-    Python 3.8+
-    requests
-    beautifulsoup4
-    pyExploitDb
-    termcolor
+    available in requirements.txt
 
 ### Contributors 🤝
 Mayur Patil [@meppohak5](https://github.com/meppohak5) <br>
