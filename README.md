@@ -115,8 +115,8 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
     termcolor
 
 ### Contributors 🤝
-[@0xCaretaker](https://github.com/0xCaretaker) <br>
-[@meppohak5](https://github.com/meppohak5) <br>
+Mayur Patil [@meppohak5](https://github.com/meppohak5) <br>
+Deepak Dhasmana [@0xCaretaker](https://github.com/0xCaretaker) <br>
 Contribute to be mentioned here.
 
 ## Read More:
