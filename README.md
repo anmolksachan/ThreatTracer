@@ -92,7 +92,7 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 - Force threattracer to not use NIST API even if its configured in environment
 ![image](https://github.com/user-attachments/assets/e05eea1a-8eb0-46eb-b56a-19692b6e657c)
 
-- Updated exploitDB module with detailed output
+- Updated exploitDB module with detailed output and faster execution
 ![image](https://github.com/user-attachments/assets/ed09433d-b850-4e8b-9fcb-b297087aebaf)
 
 ## Features Breakdown 💡 
