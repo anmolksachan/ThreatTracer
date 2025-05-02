@@ -44,25 +44,35 @@ Request API Key here: https://nvd.nist.gov/developers/request-an-api-key
 ## Usage 🚀
 ```bash
 python3 threattracer.py --help
-
+```
 # Basic usage
-python3 threattracer.py -c "Apache" -v "2.4.56"
 
+```bash
+python3 threattracer.py -c "Apache" -v "2.4.56"
+```
 # Advanced options
+```bash
 python3 threattracer.py -c 'Peel Shopping' -v '9.3.0' --poc --more
-python3 threattracer.py --cpe "cpe:2.3:a:peel:peel_shopping:9.4.0" 
+```
+```bash
+python3 threattracer.py --cpe "cpe:2.3:a:peel:peel_shopping:9.4.0"
+```
+```bash
 python3 threattracer.py --cve CVE-2021-27190
 ```
 
 ## Examples 📌 
+
+ Component search with PoC lookup
 ```bash
-# Component search with PoC lookup
 python3 threattracer.py -c 'PEEL SHOPPING' -v "9.4.0" --poc
-
-# Direct CVE analysis
+```
+ Direct CVE analysis
+```bash
 python3 threattracer.py --cve CVE-2021-27190
-
-# Store API key for repeated use
+```
+ Store API key for repeated use
+```bash
 python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 ```
 
@@ -98,7 +108,7 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 
    1. CVE Detection  via NVD API
    2. Exploit Verification  through:
-        - Static mode
+        - Static mode via ExploitDB
         - GitHub PoC database
         - Marc Full Disclosure
          
@@ -107,10 +117,10 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
    5. Persistent API Key  storage
 
 ## Requirements 📋 
-
-    available in requirements.txt
-
-### Contributors 🤝
+```bash
+pip3 install -r requirements.txt
+```
+## Contributors 🤝
 Mayur Patil [@meppohak5](https://github.com/meppohak5) <br>
 Deepak Dhasmana [@0xCaretaker](https://github.com/0xCaretaker) <br>
 Contribute to be mentioned here.
@@ -119,14 +129,14 @@ Contribute to be mentioned here.
 Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
 Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
 
-### Note
+## Note
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
 
 ## Support ❤️ 
 
-    ⭐ Star this repository
-    📣 Follow  [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
-    🤝 Contribute through pull requests
+   ⭐ Star this repository<br>
+   📣 Follow  [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)<br>
+   🤝 Contribute through pull requests
 
 ## Disclaimer ⚠️ 
 
