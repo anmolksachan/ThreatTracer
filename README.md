@@ -15,11 +15,10 @@
 - 🚀 **NVD API Integration** with API key support for faster queries
 - 📦 **Trickest PoC Database** integration for GitHub exploit lookup
 - 📬 **Marc Full Disclosure** exploit search integration
-- 🛡️ **Exploit-DB** verification via static mode
+- 🛡️ **Exploit-DB** lookup is removed with static code for faster results.
 - ⚡ **Rate limiting** with automatic retry system
 - 🔐 **API Key Management** with persistent storage
 - 📊 **Detailed Output** with color-coded results
-- 🚧 **ExploitDB** lookup is removed with static code for faster results.
 
 ## Installation 🛠️
 ```bash
