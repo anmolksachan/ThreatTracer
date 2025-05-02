@@ -19,6 +19,7 @@
 - ⚡ **Rate limiting** with automatic retry system
 - 🔐 **API Key Management** with persistent storage
 - 📊 **Detailed Output** with color-coded results
+- 🚧 **ExploitDB** lookup is under maintenance 
 
 ## Installation 🛠️
 ```bash
