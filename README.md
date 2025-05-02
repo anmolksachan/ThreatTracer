@@ -99,7 +99,7 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 
    1. CVE Detection  via NVD API
    2. Exploit Verification  through:
-        - Exploit-DB
+        - Static mode
         - GitHub PoC database
         - Marc Full Disclosure
          
