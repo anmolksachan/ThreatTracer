@@ -77,13 +77,13 @@ python3 threattracer.py --apiStore YOUR_API_KEY_HERE
 ![image](https://github.com/user-attachments/assets/69b3d89e-26db-4a2b-8a68-e319341200f0)
 
 - Lookup for component and version with --more to get detailed description of each CVE and --poc to lookup for POCs/ Exploits.
-![image](https://github.com/user-attachments/assets/8b95be75-77c3-4a3c-ba4c-ab2a8326b717)
+![image](https://github.com/user-attachments/assets/e767f004-d5a4-495d-b68c-ca27c62d1ebe)
 
 - Direct CVE lookup
-![image](https://github.com/user-attachments/assets/60975b92-cee9-43e6-a63e-edf12a60c715)
+![image](https://github.com/user-attachments/assets/d0276a2e-e7d0-4b99-9f7a-b8456c5729c6)
 
 - Direct CPE lookup
-![image](https://github.com/user-attachments/assets/48bbaf6d-2c1d-4d59-97ef-a766f78b9d5e)
+![image](https://github.com/user-attachments/assets/c6504bd5-d574-4b54-a4e4-d839cecff75d)
 
 - Not interested in configuring API, directly use from the threattracer
 ![image](https://github.com/user-attachments/assets/20cedf8a-3592-4c38-a10a-7df5b154bbfd)
