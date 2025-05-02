@@ -208,7 +208,7 @@ def fetch_trickest_info(cve_id):
             "github_pocs": list(set(github_pattern.findall(response.text)))[:5]
         }
     except Exception as e:
-        print(colored(f"⚠️ Error fetching Trickest data: {e}", "red"))
+        print(colored(f"⚠️ Error fetching POC data: {e}", "red"))
         return {"github_pocs": []}
 
 def search_marc_info(search_term):
@@ -263,7 +263,7 @@ if __name__ == "__main__":
             print(colored(f"Exploit Status: {detail['Exploit Status']}", "red"))
             
             if detail['GitHub PoCs']:
-                print(colored("\nGitHub PoCs (Trickest):", "yellow"))
+                print(colored("\nGitHub PoCs:", "yellow"))
                 for link in detail['GitHub PoCs']:
                     print(colored(f"  {link}", "green"))
         sys.exit(0)
