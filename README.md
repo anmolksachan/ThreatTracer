@@ -2,96 +2,132 @@
 
 <!--![ThreatTracer Banner version 2 1 OLD ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/77092c9f-f3f2-401d-8b16-d4a21a945249)-->
 <!--![ThreatTracer Banner version 2 1 ](https://github.com/anmolksachan/ThreatTracer/assets/60771253/58f8e429-700d-4067-a007-518ee00a7ef7)-->
-<img alt="Screenshot 2024-02-09 at 7 05 14 PM" src="https://github.com/anmolksachan/ThreatTracer/assets/60771253/1be90c9e-ac0a-4038-b0f5-7aa4e5cde29f">
+<!--<img alt="Screenshot 2024-02-09 at 7 05 14 PM" src="https://github.com/anmolksachan/ThreatTracer/assets/60771253/1be90c9e-ac0a-4038-b0f5-7aa4e5cde29f">-->
+![image](https://github.com/user-attachments/assets/b5745616-d052-4c79-b0b3-774377f41ab0)
 
+> Find CVEs, public exploits, and 0-Day vulnerabilities for any software component.
 
-This script fetches CVE details for a given component and version by identifying relevant CPEs, and searches for public exploits for relevant CVEs.
+## Key Features ✨
+- 🔍 **Multi-mode Search**: Lookup by:
+  - Component & Version (`-c apache -v 2.4`)
+  - Direct CPE (`--cpe cpe:2.3:a:apache:http_server:2.4`)
+  - Specific CVE (`--cve CVE-2021-44228`)
+- 🚀 **NVD API Integration** with API key support for faster queries
+- 📦 **Trickest PoC Database** integration for GitHub exploit lookup
+- 📬 **Marc Full Disclosure** exploit search integration
+- 🛡️ **Exploit-DB** verification via pyExploitDb
+- ⚡ **Rate limiting** with automatic retry system
+- 🔐 **API Key Management** with persistent storage
+- 📊 **Detailed Output** with color-coded results
 
-## Usage
+## Installation 🛠️
+```bash
+git clone https://github.com/anmolksachan/ThreatTracer.git
+```
+```bash
+cd ThreatTracer
+```
+```bash
+pip3 install -r requirements.txt
+```
+```bash
+python3 threattracer.py -h
+```
 
-1. Make sure you have Python3 installed on your system.
-2. Install required libraries using `pip3 install -r requirements.txt`.
-3. Run the script using `python3 threattracer.py`.
+## Configure ⚙️
+```bash 
+$ sudo python3 threattracer.py --apiStore <API KEY> -c 'Peel Shopping' -v '9.3.0'
+API key stored in /root/.cve_finder.cfg
+```
 
-## Script Description
+## Usage 🚀
+```bash
+python3 threattracer.py --help
 
-This script uses the National Vulnerability Database (NVD) API to fetch Common Vulnerabilities and Exposures (CVE) details for a specified component and version.
+# Basic usage
+python3 threattracer.py -c "Apache" -v "2.4.56"
 
-## Features
-1. CVE Finder Script: This script is designed to identify Common Vulnerabilities and Exposures (CVEs) based on the name and version of a component.
-2. User-friendly Interaction: The script interacts with users to input the name and version of a software component, making it easy to search for CVEs.
-3. Web Scraping: The script utilizes web scraping techniques to fetch Common Platform Enumeration (CPE) information from NIST's National Vulnerability Database (NVD).
-4. Colorful Output: Output messages are color-coded using the termcolor library to enhance readability and provide a visually appealing experience.
-5. CPE Search: The script searches for all matching CPEs for the specified component and version, displaying the URLs used for CPE retrieval.
-6. CVE Querying: It then queries the NVD API using the CPE information to fetch CVE details for each CPE found.
-7. Detailed Information: The script displays detailed information about each CVE, including the CVE ID, description, weaknesses, and link to the NVD page.
-8. Robust Error Handling: The script handles cases where CPEs are not found, providing appropriate error messages to users.
-9. Easy-to-Use: The user interface is designed to be straightforward, allowing users to quickly search for CVEs associated with a specific software version.
-10. CPEs Enumeration: When multiple CPEs are found, the script lists all the discovered CPEs before proceeding to query CVE details for each one.
-11. Reusability: The modular structure of the script makes it reusable and easy to integrate into other projects or scripts.
-12. Interactive Prompt: The script employs an interactive prompt to guide users through the process of entering the software component and version.
-13. Automated Querying: The script automates the process of querying and fetching CVE details, saving users time and effort.
-14. API Integration: It leverages the NVD API to retrieve and present accurate CVE information for the specified software version.
-15. Store results in text: Store the results in a nice formatted way [In first version, not supported any more]
-16. Add every CVE public exploit via `pyExploitDb` feature by [@meppohak5](https://github.com/meppohak5) 
-17. The v2.1 release of the code optimizes the previous version by incorporating asynchronous HTTP requests using the aiohttp library, faster response time.
-18. https://poc-in-github.motikan2010.net -> Github POC lookup support.
-19. Reverse search for public exploits/ 0-Days over `packetstormsecurity`
-20. <b>Search for all possible exploits/ 0Days.</b>
- 
-### Prerequisites
+# Advanced options
+python3 threattracer.py -c 'Peel Shopping' -v '9.3.0' --poc --more
+python3 threattracer.py --cpe "cpe:2.3:a:peel:peel_shopping:9.4.0" 
+python3 threattracer.py --cve CVE-2021-27190
+```
 
-- Python (3.6+ recommended)
-- `requests` library (`pip3 install requests`)
-- `termcolor` library (`pip3 install termcolor`)
-- `pyExploitDb` library (`pip3 install pyExploitDb==1.0.0`)
-- `aiohttp` library (`pip3 install aiohttp`)
+## Examples 📌 
+```bash
+# Component search with PoC lookup
+python3 threattracer.py -c 'PEEL SHOPPING' -v "9.4.0" --poc
 
-### Execution
+# Direct CVE analysis
+python3 threattracer.py --cve CVE-2021-27190
 
-1. Run the script.
-2. Enter the component (e.g., `jquery`).
-3. Enter the version (e.g., `1.0.0`).
+# Store API key for repeated use
+python3 threattracer.py --apiStore YOUR_API_KEY_HERE
+```
 
-The script will display relevant CVE information, if available.
+## Sample Run 📟/ Output Preview 🖥️
+- Help
+![image](https://github.com/user-attachments/assets/ab47f588-9388-4268-b531-73e92a0a4fc1)
 
-## Script Example
- ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/a6d744f6-0473-45e4-a16a-399412ec8f12)
+- Configure NIST API Key to avoid getting rate limited [Recommended]
+![image](https://github.com/user-attachments/assets/714ddb75-b6d3-4f40-b18f-9106946e489b)
 
- ![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/128be6ce-7204-49b6-adaf-d7ec1f342a25)
+- Lookup for component and version
+![image](https://github.com/user-attachments/assets/69b3d89e-26db-4a2b-8a68-e319341200f0)
 
-## Sample Run
-<!--![Studio_Project_V2](https://github.com/anmolksachan/ThreatTracer/assets/60771253/a8938aa2-06cc-4fbf-a640-c10d77219185)-->
-![demo](https://github.com/anmolksachan/ThreatTracer/assets/60771253/7c1e8a3c-77d9-4686-a7a7-e7e696e2237f)
+- Lookup for component and version with --more to get detailed description of each CVE and --poc to lookup for POCs/ Exploits.
+![image](https://github.com/user-attachments/assets/8b95be75-77c3-4a3c-ba4c-ab2a8326b717)
 
-## Public Exploit 
-https://github.com/anmolksachan/ThreatTracer/assets/60771253/dc7d1cb0-e759-4a12-842e-a2bb42dda14c
-<!--https://github.com/anmolksachan/ThreatTracer/assets/60771253/ae20bc09-1f19-4eaf-af09-ff930eb6b10f-->
+- Direct CVE lookup
+![image](https://github.com/user-attachments/assets/60975b92-cee9-43e6-a63e-edf12a60c715)
 
-## Packet Storm security lookup 
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/556f197e-6f4d-4f6c-ab3b-69d39f9b9e9f)
-<br>Sometimes the vulnerability doesn't have CVE associated yet and it is possible that a public exploit is available.
+- Direct CPE lookup
+![image](https://github.com/user-attachments/assets/48bbaf6d-2c1d-4d59-97ef-a766f78b9d5e)
 
-## Github Exploit/ POC reverse lookup
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/ea3f3460-e051-4261-8924-d24e8f50cea2)
+- Not interested in configuring API, directly use from the threattracer
+![image](https://github.com/user-attachments/assets/20cedf8a-3592-4c38-a10a-7df5b154bbfd)
 
-## Fetch all possible exploit/ 0-Days out there
-![image](https://github.com/anmolksachan/ThreatTracer/assets/60771253/65328a63-a0dd-4902-b7f9-0346564480dc)
+- Force threattracer to not use NIST API even if its configured in environment
+![image](https://github.com/user-attachments/assets/e05eea1a-8eb0-46eb-b56a-19692b6e657c)
 
-## POC
-[Vimeo](https://vimeo.com/864312552)
+## Features Breakdown 💡 
 
-### Contact
-Shoot my DM : [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
+   1. CVE Detection  via NVD API
+   2. Exploit Verification  through:
+        - Exploit-DB
+        - GitHub PoC database
+        - Marc Full Disclosure
+         
+   3. Zero-Day Hunting  capabilities
+   4. Rate Limit Handling  with automatic retries
+   5. Persistent API Key  storage
 
-### Special Thanks
-[@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
-[@0xCaretaker](https://github.com/0xCaretaker)
-[@meppohak5](https://github.com/meppohak5)
+## Requirements 📋 
+
+    Python 3.8+
+    requests
+    beautifulsoup4
+    pyExploitDb
+    termcolor
+
+### Contributors 🤝
+[@0xCaretaker](https://github.com/0xCaretaker) <br>
+[@meppohak5](https://github.com/meppohak5) <br>
 Contribute to be mentioned here.
 
 ### Note
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
 
-## __Want to support my work?__
-Give me a Star in the repository or follow me [@FR13ND0x7F](https://twitter.com/fr13nd0x7f) , thats enough for me :P
+## Support ❤️ 
+
+    ⭐ Star this repository
+    📣 Follow  [@FR13ND0x7F](https://twitter.com/fr13nd0x7f)
+    🤝 Contribute through pull requests
+
+## Disclaimer ⚠️ 
+
+This tool is for educational and ethical security testing purposes only. Use only on systems you own or have explicit permission to test. 
+
+## License 📜 
+
+[MIT License](https://github.com/anmolksachan/ThreatTracer?tab=MIT-1-ov-file#readme)  - Copyright (c) 2024 Anmol Sachan 
