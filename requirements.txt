@@ -4,3 +4,5 @@ termcolor
 pyExploitDb
 beautifulsoup4
 colorama
+termcolor
+bs4
