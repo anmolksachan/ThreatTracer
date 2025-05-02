@@ -1,8 +1,5 @@
 aiohttp
 requests==2.26.0
 termcolor
-pyExploitDb
 beautifulsoup4
 colorama
-termcolor
-bs4
