@@ -45,12 +45,12 @@ Request API Key here: https://nvd.nist.gov/developers/request-an-api-key
 ```bash
 python3 threattracer.py --help
 ```
-# Basic usage
+# Basic usage 🩼
 
 ```bash
 python3 threattracer.py -c "Apache" -v "2.4.56"
 ```
-# Advanced options
+# Advanced options ⚡
 ```bash
 python3 threattracer.py -c 'Peel Shopping' -v '9.3.0' --poc --more
 ```
@@ -125,11 +125,11 @@ Mayur Patil [@meppohak5](https://github.com/meppohak5) <br>
 Deepak Dhasmana [@0xCaretaker](https://github.com/0xCaretaker) <br>
 Contribute to be mentioned here.
 
-## Read More:
+## Read More 📝
 Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
 Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
 
-## Note
+## Note 🔗
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
 
 ## Support ❤️ 
