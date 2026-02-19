@@ -128,6 +128,7 @@ Contribute to be mentioned here.
 ## Read More 📝
 Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
 Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
+[ThreatTracer Open-Source Tool for CVE Tracking, PoC Lookup, and Risk Analysis](https://www.xpert4cyber.com/2026/01/threattracer-open-source-cve-tracking-poc-lookup-risk-analysis.html)
 
 ## Note 🔗
 Feel free to enhance, modify, or contribute to this script to suit your needs and explore more security-related projects!
