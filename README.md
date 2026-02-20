@@ -69,7 +69,7 @@ It queries **NVD**, **Exploit-DB**, **GitHub PoC repos**, **CISA KEV**, **Nuclei
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/ThreatTracer.git
+git clone https://github.com/anmolksachan/ThreatTracer.git
 cd ThreatTracer
 
 # Install (creates the `threattracer` command)
