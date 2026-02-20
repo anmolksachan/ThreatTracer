@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threattracer"
+version = "4.1.0"
+description = "Production-grade CVE intelligence & exploit-hunting CLI for pentesters and red teams"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "ThreatTracer Contributors" }]
+keywords = ["cve", "security", "pentesting", "exploit", "nvd", "red-team", "bugbounty"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Information Technology",
+    "Topic :: Security",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "httpx[http2]>=0.27",
+    "anyio>=4.3",
+    "rich>=13.7",
+    "rapidfuzz>=3.8",
+    "typer>=0.12",
+    "pydantic>=2.6",
+    "aiosqlite>=0.20",
+    "tenacity>=8.3",
+    # Asset scanning
+    "python-Wappalyzer>=0.3.1",
+    "requests>=2.31",           # required by python-Wappalyzer internally
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+
+[project.scripts]
+threattracer = "threattracer.main:app_entry"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["threattracer*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
