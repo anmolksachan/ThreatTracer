@@ -1,5 +1,0 @@
-aiohttp
-requests==2.26.0
-termcolor
-beautifulsoup4
-colorama
