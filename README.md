@@ -519,8 +519,8 @@ pip install python-Wappalyzer
 
 ## Read More 
 Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
-Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)
-[ThreatTracer Open-Source Tool for CVE Tracking, PoC Lookup, and Risk Analysis](https://www.xpert4cyber.com/2026/01/threattracer-open-source-cve-tracking-poc-lookup-risk-analysis.html)
+Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)<br>
+[ThreatTracer Open-Source Tool for CVE Tracking, PoC Lookup, and Risk Analysis](https://www.xpert4cyber.com/2026/01/threattracer-open-source-cve-tracking-poc-lookup-risk-analysis.html)<br>
 Version 4.1: [Six Browser Tabs and a Spreadsheet. There Had to Be a Better Way.](https://anmolksachan.medium.com/six-browser-tabs-and-a-spreadsheet-there-had-to-be-a-better-way-6575f6b0f0c7)
 
 ---
