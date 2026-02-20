@@ -1,0 +1,14 @@
+httpx[http2]>=0.27
+anyio>=4.3
+rich>=13.7
+rapidfuzz>=3.8
+typer>=0.12
+pydantic>=2.6
+aiosqlite>=0.20
+tenacity>=8.3
+python-Wappalyzer>=0.3.1
+requests>=2.31
+
+[dev]
+pytest>=8.0
+pytest-asyncio>=0.23
