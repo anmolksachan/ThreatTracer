@@ -141,6 +141,8 @@ Commands:
   cache-cmd  Manage the local SQLite response cache
 ```
 
+<img width="1842" height="1710" alt="image" src="https://github.com/user-attachments/assets/2be9dea2-adc8-43f8-8ac7-8ce43fd67c5b" />
+
 ---
 
 ## `scan` - CVE Lookup
@@ -231,6 +233,8 @@ threattracer scan -c apache -v 2.4 --severity critical -o silent
 --limit 10                       # Cap results
 ```
 
+<img width="1980" height="1860" alt="image" src="https://github.com/user-attachments/assets/d6f734d2-0dca-4aab-809a-a45a2cc8f791" />
+
 ---
 
 ## `asset` - Live URL Fingerprinting + CVE Scan
@@ -295,6 +299,10 @@ threattracer asset --file targets.txt -o json > batch-results.json
 # Full detail panels for every target
 threattracer asset --file targets.txt --detail
 ```
+
+<img width="3444" height="1678" alt="image" src="https://github.com/user-attachments/assets/ab50b3be-905b-482b-93fb-47ef40cace2d" />
+<img width="3448" height="1590" alt="image" src="https://github.com/user-attachments/assets/7d6d145e-9afc-4260-b1f1-301408e38224" />
+Note: Some output truncated due to excessive content.
 
 ### Bug Bounty Workflows
 
@@ -459,6 +467,8 @@ threattracer config --llm-provider ollama --llm-model llama3.2
 threattracer config --llm-provider openai --llm-openai-url http://localhost:8080 --llm-model your-model
 ```
 
+<img width="2880" height="1928" alt="image" src="https://github.com/user-attachments/assets/442f5a57-7509-4133-8661-b8e2558961ca" />
+
 `--llm-provider auto` (the default) probes Ollama first, then an OpenAI-compatible
 server, then falls back to the heuristic. Check what's detected with:
 
@@ -480,6 +490,8 @@ threattracer doctor
 Reports API-key status, reachability of NVD / EPSS / CISA KEV / GitHub, the cache
 location, and whether a local LLM is available for `--summarize`. Run it first
 whenever a scan is slow or comes back empty.
+
+<img width="818" height="788" alt="image" src="https://github.com/user-attachments/assets/eede1bba-2788-4d95-8be8-e8c47904e888" />
 
 ---
 
