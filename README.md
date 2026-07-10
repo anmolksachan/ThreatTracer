@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1254" height="328" alt="image" src="https://github.com/user-attachments/assets/9ad909dc-7946-4a7c-8f9c-9bc3de30d205" />
+<img width="1254" height="328" alt="image" src="https://github.com/user-attachments/assets/35b5aabf-9e40-479b-84fd-5a51c13bb915" />
 
 **CVE Intelligence & Exploit-Hunting CLI**
 
@@ -8,9 +8,9 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.1.0-orange?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/version-5.0.0-orange?style=flat-square)](#)
 
-*Original:* **@FR13ND0x7F** · **@0xCaretaker** · **@meppohak5**
+*Author:* **@FR13ND0x7F** · **@0xCaretaker** · **@meppohak5**
 
 </div>
 
@@ -18,11 +18,21 @@
 
 ## What is ThreatTracer?
 
-ThreatTracer is a command-line tool that turns a product name, a URL, or a CVE ID into a complete exploit intelligence report — instantly.
+ThreatTracer is a command-line tool that turns a product name, a URL, or a CVE ID into a complete exploit intelligence report - instantly.
 
 It queries **NVD**, **Exploit-DB**, **GitHub PoC repos**, **CISA KEV**, **Nuclei Templates**, and **Metasploit modules** in parallel, so you get everything in one place instead of checking six different tabs manually.
 
-**New in v4.1 — Asset Scanning:** Point it at any live URL and it fingerprints the tech stack automatically using Wappalyzer + header/body analysis, then runs full CVE + exploit intelligence for every detected component.
+**New in v5.0 - Triage & local-AI briefings:** every scan is now risk-ranked by a
+deterministic priority engine (KEV + EPSS + CVSS + exploit-tooling maturity), and
+`--summarize` turns the findings into a plain-language triage briefing. If you run a
+**local** LLM (Ollama or any OpenAI-compatible server) it writes the briefing -
+otherwise a built-in heuristic does. **No data ever leaves your machine.** You can
+also export a full **Markdown / HTML report** (`--report`), and run `doctor` to check
+keys, connectivity, and LLM readiness in one shot.
+
+**v4.1 - Asset Scanning:** Point it at any live URL and it fingerprints the tech stack
+automatically using Wappalyzer + header/body analysis, then runs full CVE + exploit
+intelligence for every detected component.
 
 ---
 
@@ -31,17 +41,21 @@ It queries **NVD**, **Exploit-DB**, **GitHub PoC repos**, **CISA KEV**, **Nuclei
 | Feature | Description |
 |---|---|
 | 🔍 **CVE Lookup** | By component name+version, CPE string, or CVE ID |
+| 🎯 **Risk Triage** | Deterministic 0-100 priority score: KEV + EPSS + CVSS + exploit maturity |
+| 🧠 **Local-AI Briefing** | `--summarize` writes a plain-language triage briefing via a local LLM (offline) |
+| 📄 **Reports** | `--report file.md` / `file.html` - HTML prints straight to PDF |
+| 🩺 **Doctor** | One command to check keys, connectivity, cache, and LLM readiness |
 | 🌐 **Asset Scanning** | Fingerprint live URLs → auto CVE scan per tech |
 | 📦 **Batch Scanning** | Scan multiple URLs from a file with concurrency control |
 | 💥 **Exploit-DB** | Local-indexed CSV, matched by CVE ID + fuzzy title |
 | 🐙 **GitHub PoCs** | Trickest mirror + GitHub API (stars ranked, forks filtered) |
 | 🐳 **Vulhub** | Docker-based PoC environments auto-discovered |
-| 🔥 **CISA KEV** | Known Exploited Vulnerabilities catalog — #1 triage signal |
+| 🔥 **CISA KEV** | Known Exploited Vulnerabilities catalog - #1 triage signal |
 | ⚡ **Nuclei Templates** | Ready-to-fire templates from ProjectDiscovery |
 | 🎯 **Metasploit** | Module lookup with direct `use` command |
 | 📊 **EPSS Score** | Exploit prediction probability (FIRST.org) |
 | 🧠 **Smart CPE Matching** | Rapidfuzz similarity scoring + vendor normalisation |
-| 💾 **SQLite Cache** | TTL-based caching — fast repeats, offline-friendly |
+| 💾 **SQLite Cache** | TTL-based caching - fast repeats, offline-friendly |
 | 📤 **Output Modes** | Table · JSON · CSV · Silent |
 | 🔑 **API Key Storage** | NVD + GitHub tokens stored in `~/.threattracer/` |
 
@@ -65,28 +79,31 @@ It queries **NVD**, **Exploit-DB**, **GitHub PoC repos**, **CISA KEV**, **Nuclei
 
 ## Installation
 
-**Requirements:** Python 3.10+
+**Requirements:** Python 3.9+ (3.10+ recommended and CI-tested)
 
 ```bash
 # Clone the repo
 git clone https://github.com/anmolksachan/ThreatTracer.git
 cd ThreatTracer
 
-# Install (creates the `threattracer` command)
+# Install the base tool (creates the `threattracer` command)
 pip install -e .
 
-# Optional: Wappalyzer for better tech fingerprinting on asset scans
-pip install python-Wappalyzer
+# Optional: add live-URL fingerprinting (Wappalyzer) for `asset` scans
+pip install -e ".[asset]"
 
-# Verify
-threattracer --help
+# Verify everything - keys, connectivity, cache, and local LLM
+threattracer doctor
 ```
 
 > **Tip:** Use a virtual environment:
 > ```bash
 > python -m venv venv && source venv/bin/activate
-> pip install -e .
+> pip install -e ".[asset]"
 > ```
+
+> Header/body fingerprinting works without Wappalyzer, so the base install is
+> fully functional on its own.
 
 ---
 
@@ -95,7 +112,7 @@ threattracer --help
 ThreatTracer works without any API keys, but adding them unlocks higher rate limits and more intelligence.
 
 ```bash
-# Store once — loaded automatically on every scan
+# Store once - loaded automatically on every scan
 threattracer config --nvd-key YOUR_NVD_KEY
 threattracer config --github-token YOUR_GITHUB_TOKEN
 
@@ -126,7 +143,7 @@ Commands:
 
 ---
 
-## `scan` — CVE Lookup
+## `scan` - CVE Lookup
 
 ### By Component Name + Version
 
@@ -149,7 +166,7 @@ threattracer scan -c openssl -v 3.0.7 --severity critical --sort epss
 # Only CVEs from 2022 onwards
 threattracer scan -c struts -v 2.5.10 --since 2022 --limit 20
 
-# Sort by KEV — actively exploited first
+# Sort by KEV - actively exploited first
 threattracer scan -c apache -v 2.4 --sort kev
 ```
 
@@ -159,7 +176,7 @@ threattracer scan -c apache -v 2.4 --sort kev
 # Look up a specific CVE
 threattracer scan --cve CVE-2021-44228
 
-# Full detail — CVSS breakdown, exploits, PoCs, Nuclei, MSF
+# Full detail - CVSS breakdown, exploits, PoCs, Nuclei, MSF
 threattracer scan --cve CVE-2021-44228 --detail
 
 # JSON output for piping
@@ -189,15 +206,15 @@ threattracer scan --cpe "cpe:2.3:a:php:php:8.1.0:*:*:*:*:*:*:*" --severity criti
 # Default: rich table
 threattracer scan -c apache -v 2.4.51
 
-# JSON — pipe to jq, save to file, send to SIEM
+# JSON - pipe to jq, save to file, send to SIEM
 threattracer scan -c apache -v 2.4.51 -o json
 threattracer scan -c apache -v 2.4.51 -o json | jq '.summary'
 threattracer scan -c apache -v 2.4.51 -o json | jq '.cves[] | select(.in_kev == true)'
 
-# CSV — import to Excel or ticketing system
+# CSV - import to Excel or ticketing system
 threattracer scan -c nginx -v 1.18 -o csv > nginx-report.csv
 
-# Silent — for CI/CD scripting (exit 0 = no match after filters)
+# Silent - for CI/CD scripting (exit 0 = no match after filters)
 threattracer scan -c apache -v 2.4 --severity critical -o silent
 ```
 
@@ -216,7 +233,7 @@ threattracer scan -c apache -v 2.4 --severity critical -o silent
 
 ---
 
-## `asset` — Live URL Fingerprinting + CVE Scan
+## `asset` - Live URL Fingerprinting + CVE Scan
 
 Point ThreatTracer at a live URL. It:
 1. Fetches the page and follows redirects
@@ -340,7 +357,7 @@ Sev   CVE ID             CVSS   EPSS%   AV    PR    EDB  PoC  Nuclei  MSF  KEV  
 | **PoC** | ✓ = GitHub PoC repo found |
 | **Nuclei** | ✓ = ProjectDiscovery Nuclei template available |
 | **MSF** | ✓ = Metasploit module available |
-| **KEV 🔥** | Confirmed active exploitation — CISA Known Exploited Vulnerabilities |
+| **KEV 🔥** | Confirmed active exploitation - CISA Known Exploited Vulnerabilities |
 
 ### Scan Summary
 
@@ -393,7 +410,93 @@ subfinder -d target.com -silent | httpx -silent | sed 's|^|https://|' | \
 
 ---
 
-## `config` — Key Management
+## Triage & Local-AI Briefings
+
+Add `--summarize` (`-s`) to any `scan` or `asset` command to get two extra things:
+
+1. **A risk-ranked "Prioritised Findings" table.** Each CVE gets a deterministic
+   **0-100 priority score** blending four independent public signals:
+
+   | Signal | Weight | Why |
+   |---|---|---|
+   | CISA KEV membership | 40 | Confirmed real-world exploitation - the strongest signal |
+   | EPSS | 25 | FIRST.org probability of exploitation in the next 30 days |
+   | CVSS base score | 20 | Theoretical severity |
+   | Exploit-tooling maturity | 15 | PoC → Exploit-DB/Nuclei → Metasploit/KEV |
+
+   The score is **decision support** for patch/verification order - not a claim
+   that anything is exploitable in your specific environment.
+
+2. **A plain-language triage briefing** - overall posture, what to look at first
+   and why, and defensive next steps.
+
+```bash
+# Triage table + briefing in the terminal
+threattracer scan -c apache -v 2.4.51 --summarize
+
+# Asset scan, triage everything found, write an HTML report (prints to PDF)
+threattracer asset https://target.com -s --report target.html
+
+# Choose the backend and model explicitly
+threattracer scan --cve CVE-2021-44228 -s --llm-provider ollama --llm-model qwen2.5
+```
+
+### Optional local LLM (100% offline)
+
+The briefing is written by a **local** model if one is reachable, otherwise a
+built-in deterministic heuristic is used. **Nothing is ever sent to a cloud
+service** and a scan never fails because the LLM is unavailable.
+
+Two backends are supported:
+
+```bash
+# Option A - Ollama (recommended, easiest)
+ollama serve
+ollama pull llama3.2
+threattracer config --llm-provider ollama --llm-model llama3.2
+
+# Option B - any OpenAI-compatible local server (llama.cpp, LM Studio, vLLM, ...)
+threattracer config --llm-provider openai --llm-openai-url http://localhost:8080 --llm-model your-model
+```
+
+`--llm-provider auto` (the default) probes Ollama first, then an OpenAI-compatible
+server, then falls back to the heuristic. Check what's detected with:
+
+```bash
+threattracer doctor
+```
+
+Environment-variable equivalents (see `.env.example`): `THREATTRACER_LLM_PROVIDER`,
+`THREATTRACER_LLM_OLLAMA_URL`, `THREATTRACER_LLM_OPENAI_URL`, `THREATTRACER_LLM_MODEL`.
+
+---
+
+## `doctor` - Environment Check
+
+```bash
+threattracer doctor
+```
+
+Reports API-key status, reachability of NVD / EPSS / CISA KEV / GitHub, the cache
+location, and whether a local LLM is available for `--summarize`. Run it first
+whenever a scan is slow or comes back empty.
+
+---
+
+## Reports
+
+```bash
+threattracer scan -c wordpress -v 6.4.1 -s --report wp.md      # Markdown
+threattracer asset https://target.com -s --report target.html # HTML → print to PDF
+```
+
+Reports include the executive briefing, an at-a-glance metrics panel, the
+prioritised findings table, and full per-CVE detail. HTML is a single
+self-contained file with inline CSS that prints cleanly to PDF from any browser.
+
+---
+
+## `config` - Key Management
 
 ```bash
 threattracer config --nvd-key YOUR_NVD_KEY
@@ -405,7 +508,7 @@ Keys saved to `~/.threattracer/config.json`, auto-loaded on every run.
 
 ---
 
-## `sync` — Update Exploit-DB
+## `sync` - Update Exploit-DB
 
 ```bash
 threattracer sync
@@ -414,7 +517,7 @@ threattracer sync
 
 ---
 
-## `cache-cmd` — Cache Control
+## `cache-cmd` - Cache Control
 
 ```bash
 threattracer cache-cmd --purge-expired   # remove stale entries only
@@ -430,11 +533,15 @@ Cache location: `~/.threattracer/cache.db` (TTL: 6 hours per entry)
 ```
 ThreatTracer/
 ├── pyproject.toml
+├── Dockerfile
+├── .env.example
+├── CHANGELOG.md
 ├── threattracer/
 │   ├── main.py                   # Entry point
 │   ├── cli/
-│   │   ├── __init__.py           # All CLI commands
-│   │   └── output.py             # Rich tables, panels, JSON, CSV
+│   │   ├── __init__.py           # All CLI commands (scan, asset, doctor, config, …)
+│   │   ├── output.py             # Rich tables, panels, triage & briefing render
+│   │   └── report.py             # Markdown / HTML report writer
 │   ├── core/
 │   │   ├── scanner.py            # Async orchestrator
 │   │   ├── nvd.py                # NVD API v2 + EPSS
@@ -442,18 +549,26 @@ ThreatTracer/
 │   │   ├── exploitdb.py          # Exploit-DB CSV index
 │   │   ├── github_poc.py         # Trickest + GitHub API + Vulhub
 │   │   ├── kev.py                # CISA KEV catalog
-│   │   ├── nuclei_check.py       # Nuclei template discovery
+│   │   ├── nuclei_check.py       # Nuclei template discovery (bounded)
 │   │   ├── msf_check.py          # Metasploit module lookup
-│   │   └── asset_scanner.py      # URL fingerprinting + per-tech CVE scan
+│   │   ├── asset_scanner.py      # URL fingerprinting + per-tech CVE scan
+│   │   ├── triage.py             # Deterministic 0-100 risk prioritisation
+│   │   └── llm_summary.py        # Optional local-LLM briefing + heuristic fallback
 │   └── utils/
-│       ├── models.py             # Pydantic data models
-│       ├── config.py             # Configuration loading
+│       ├── models.py             # Pydantic data models (+ triage/summary models)
+│       ├── config.py             # Configuration loading (+ LLM settings)
 │       ├── cache.py              # Async SQLite TTL cache
-│       └── http_client.py        # httpx + tenacity retry
+│       ├── http_client.py        # httpx + tenacity retry
+│       └── validate.py           # CVE-ID validation helpers
 └── tests/
     ├── test_nvd.py
     ├── test_cpe.py
-    └── test_exploitdb.py
+    ├── test_exploitdb.py
+    ├── test_validate.py
+    ├── test_triage.py
+    ├── test_llm_summary.py
+    ├── test_report.py
+    └── test_guards.py
 ```
 
 ---
@@ -472,7 +587,7 @@ pytest tests/ -v
 | Package | Purpose |
 |---|---|
 | `httpx[http2]` | Async HTTP with HTTP/2 |
-| `rich` | Terminal UI — tables, panels, progress |
+| `rich` | Terminal UI - tables, panels, progress |
 | `typer` | CLI framework |
 | `pydantic` | Data validation and models |
 | `rapidfuzz` | Fuzzy CPE matching |
@@ -518,7 +633,7 @@ pip install python-Wappalyzer
 ---
 
 ## Read More 
-Version 1: [Enhancing Penetration Testing with CVE Checker Script — ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
+Version 1: [Enhancing Penetration Testing with CVE Checker Script - ThreatTracer](https://anmolksachan.medium.com/enhancing-penetration-testing-with-cve-checker-script-threattracer-p-484487747a77)<br>
 Version 3: [ThreatTracer 3.0: Redefining Vulnerability Intelligence for Modern Defenders](https://anmolksachan.medium.com/threattracer-3-0-redefining-vulnerability-intelligence-for-modern-defenders-7661ffc11873)<br>
 [ThreatTracer Open-Source Tool for CVE Tracking, PoC Lookup, and Risk Analysis](https://www.xpert4cyber.com/2026/01/threattracer-open-source-cve-tracking-poc-lookup-risk-analysis.html)<br>
 Version 4.1: [Six Browser Tabs and a Spreadsheet. There Had to Be a Better Way.](https://anmolksachan.medium.com/six-browser-tabs-and-a-spreadsheet-there-had-to-be-a-better-way-6575f6b0f0c7)
