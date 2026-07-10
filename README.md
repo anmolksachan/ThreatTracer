@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1254" height="328" alt="image" src="https://github.com/user-attachments/assets/35b5aabf-9e40-479b-84fd-5a51c13bb915" />
+<img width="1254" height="328" alt="image" src="https://github.com/anmolksachan/anmolksachan.github.io/blob/main/threattracer_banner_v2.gif?raw=true" />
 
 **CVE Intelligence & Exploit-Hunting CLI**
 
