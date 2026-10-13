@@ -77,6 +77,14 @@ intelligence for every detected component.
 
 ---
 
+## 🧩 Featured At
+
+| Conference        | Year | Track / Showcase         |    |
+|-------------------|------|---------------------------|---|
+| [BSides Mumbai 26](https://www.bsidesmumbai.in/#speakers) | 2026 | ARSENAL |  <img width="225" height="224" alt="image" src="https://github.com/user-attachments/assets/04af062a-8a28-42d8-bac3-85e3c6f30b76" /> |
+
+---
+
 ## Installation
 
 **Requirements:** Python 3.9+ (3.10+ recommended and CI-tested)
